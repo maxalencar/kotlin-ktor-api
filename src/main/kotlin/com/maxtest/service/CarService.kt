@@ -7,6 +7,11 @@ import kotlinx.coroutines.withContext
 import org.bson.Document
 
 class CarService(private val carRepository: CarRepository) {
+    // Find all cars
+    suspend fun findAll(): Collection<Car> = withContext(Dispatchers.IO) {
+        carRepository.findAll()
+    }
+
     // Create new car
     suspend fun create(car: Car): String = withContext(Dispatchers.IO) {
         carRepository.create(car)

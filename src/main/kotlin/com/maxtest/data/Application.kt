@@ -1,9 +1,8 @@
 package com.maxtest.data
 
-import com.mongodb.client.MongoClients
+import com.maxtest.data.database.Database
 import com.mongodb.client.MongoDatabase
 import io.ktor.server.application.*
-import io.ktor.server.config.*
 
 /**
  * Establishes connection with a MongoDB database.
@@ -22,23 +21,28 @@ import io.ktor.server.config.*
  *
  * @returns [MongoDatabase] instance
  * */
-fun Application.connectToMongoDB(): MongoDatabase {
-    val user = environment.config.tryGetString("db.mongo.user")
-    val password = environment.config.tryGetString("db.mongo.password")
-    val host = environment.config.tryGetString("db.mongo.host") ?: "127.0.0.1"
-    val port = environment.config.tryGetString("db.mongo.port") ?: "27017"
-    val maxPoolSize = environment.config.tryGetString("db.mongo.maxPoolSize")?.toInt() ?: 20
-    val databaseName = environment.config.tryGetString("db.mongo.database.name") ?: "mydatabase"
+//fun Application.connectToMongoDB(): MongoDatabase {
+//    val user = environment.config.tryGetString("db.mongo.user")
+//    val password = environment.config.tryGetString("db.mongo.password")
+//    val host = environment.config.tryGetString("db.mongo.host") ?: "127.0.0.1"
+//    val port = environment.config.tryGetString("db.mongo.port") ?: "27017"
+//    val maxPoolSize = environment.config.tryGetString("db.mongo.maxPoolSize")?.toInt() ?: 20
+//    val databaseName = environment.config.tryGetString("db.mongo.database.name") ?: "mydatabase"
+//
+//    val credentials = user?.let { userVal -> password?.let { passwordVal -> "$userVal:$passwordVal@" } }.orEmpty()
+//    val uri = "mongodb://$credentials$host:$port/?maxPoolSize=$maxPoolSize&w=majority"
+//
+//    val mongoClient = MongoClients.create(uri)
+//    val database = mongoClient.getDatabase(databaseName)
+//
+//    environment.monitor.subscribe(ApplicationStopped) {
+//        mongoClient.close()
+//    }
+//
+//    return database
+//}
 
-    val credentials = user?.let { userVal -> password?.let { passwordVal -> "$userVal:$passwordVal@" } }.orEmpty()
-    val uri = "mongodb://$credentials$host:$port/?maxPoolSize=$maxPoolSize&w=majority"
-
-    val mongoClient = MongoClients.create(uri)
-    val database = mongoClient.getDatabase(databaseName)
-
-    environment.monitor.subscribe(ApplicationStopped) {
-        mongoClient.close()
-    }
-
-    return database
+fun Application.module() {
+    val config = environment.config // Retrieve Ktor application configuration
+    Database.connect(config) // Manually initialize the database connection
 }

@@ -9,13 +9,17 @@ import kotlinx.coroutines.withContext
 import org.bson.Document
 import org.bson.types.ObjectId
 
-
 class CarRepository(private val database: MongoDatabase) {
     var collection: MongoCollection<Document>
 
     init {
         database.createCollection("cars")
         collection = database.getCollection("cars")
+    }
+
+    //  Find all cars
+    suspend fun findAll(): Collection<Car> = withContext(Dispatchers.IO) {
+        collection.find().toList().map(Car::fromDocument)
     }
 
     // Create new car

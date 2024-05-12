@@ -1,5 +1,7 @@
 package com.maxtest
 
+import com.maxtest.data.module as dataModule
+import com.maxtest.web.module as webModule
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -7,7 +9,6 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-//    configureSerialization()
-//    configureDatabases()
-//    configureRouting()
+    dataModule()
+    webModule()
 }

@@ -16,6 +16,12 @@ fun Route.carRoutes() {
     val carService = CarService(carRepository)
 
     route("/cars") {
+        // Find all cars
+        get {
+            carService.findAll().let { cars ->
+                call.respond(cars)
+            }
+        }
         // Create car
         post {
             val car = call.receive<Car>()
