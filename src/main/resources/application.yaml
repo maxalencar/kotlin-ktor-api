@@ -1,0 +1,9 @@
+ktor:
+    application:
+        modules:
+            - com.maxtest.ApplicationKt.module
+    deployment:
+        port: 8089
+    mongodb:
+        uri: "mongodb://root:secret@127.0.0.1:27017/?maxPoolSize=20&w=majority"
+        database: "mydatabase"
